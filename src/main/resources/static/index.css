@@ -1,0 +1,10 @@
+#boardGameDiv{
+  height: 800px;
+  width: 1280px;
+  text-align: center;
+  background-image: url("imgs/bg2-01.jpg");
+}
+#cardsDiv{
+  position: relative;
+    top: 80%;
+}
