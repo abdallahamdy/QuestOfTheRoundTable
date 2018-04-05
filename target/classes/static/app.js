@@ -103,6 +103,7 @@ function joinGame() {
 }
 
 function showCards(cards) {
+	$("#mainmenu").empty();
     // $("#responseField").append("<tr><td>" + name + "</td></tr>");
     console.log(cards);
     for (i = 0; i < cards.length; i++) {
@@ -117,7 +118,7 @@ function dealCards() {
     var data = JSON.stringify({
         "method": "dealCards"
     })
-    $("#mainmenu").hide();
+    
     websocket.send(data);
 
 }
