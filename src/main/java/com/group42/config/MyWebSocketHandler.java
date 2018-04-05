@@ -134,8 +134,8 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
         if(methodName.equals("createPlayer")){
 //            createPlayer(value.get(PLAYERNAME_KEY), webSocketSession);
             createPlayer(value, webSocketSession);
-        } else if(methodName.equals("dealCards")){
-            dealCards();
+        } else if(methodName.equals("startGame")){
+            startGame();
         }
 
 //        switch(methodName){
@@ -199,7 +199,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
     }
 
 
-    public void dealCards() throws Exception{
+    public void startGame() throws Exception{
         JsonObject response = new JsonObject();
 
         //for loop and create a new json object for each card, end of each iteration push to array
@@ -208,7 +208,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
 
 //        response.addProperty("method", "showCards");
 
-        System.out.println("Deal Cards function");
+        System.out.println("Start Game function");
         for (int i = 0; i < playerArrayList.size(); i++) {
 
             JsonArray cards = new JsonArray();

@@ -114,9 +114,9 @@ function showCards(cards) {
 }
 
 function startGame() {
-    console.log("in deal cards js");
+    console.log("in start game js");
     var data = JSON.stringify({
-        "method": "dealCards"
+        "method": "startGame"
     })
     
     websocket.send(data);
