@@ -65,54 +65,6 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
 
         JsonObject response = new JsonObject();
 
-
-//        for(Player currentPlayer : playerArrayList){
-//            if(currentPlayer.getSession() == webSocketSession){
-//                if(currentPlayer.isHost() && !(playerArrayList.isEmpty())){
-//
-//                }
-//                playerArrayList.remove(currentPlayer);
-//            }
-//        }
-
-
-//        if(!(playerArrayList.isEmpty())){
-//            for(Player currentPlayer : playerArrayList){
-//                if(currentPlayer.getSession() == webSocketSession){
-//                    if(currentPlayer.isHost()){
-//
-//                    }
-//                    playerArrayList.remove(currentPlayer);
-//                }
-//            }
-//        }
-
-
-//        System.out.println("Player ArrayList size is " + playerArrayList.size());
-//        for(Player currentPlayer : playerArrayList){
-//            System.out.println("in for loop current player is:  " + currentPlayer.getName());
-//            if(currentPlayer.getSession() == webSocketSession){
-//
-//                Player playerLeaving = currentPlayer;
-//
-//                playerArrayList.remove(currentPlayer);
-//
-//                if(playerLeaving.isHost() == true && playerArrayList.isEmpty() == false){
-//
-//                    playerArrayList.get(0).setHost(true);
-//                    response.addProperty("method", "hostLeft");
-//                    response.addProperty("oldHost", playerLeaving.getName());
-//                    response.addProperty("newHost", playerArrayList.get(0).getName());
-//
-//                } else {
-//
-//                    response.addProperty("method", "someoneLeft");
-//                    response.addProperty("playername", playerLeaving.getName());
-//
-//                }
-//            }
-//        }
-
         for(Player p : playerArrayList){
             if(p.getSession() == webSocketSession){
                 p.getSession().sendMessage(new TextMessage(response.toString()));
@@ -132,24 +84,11 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
 
 
         if(methodName.equals("createPlayer")){
-//            createPlayer(value.get(PLAYERNAME_KEY), webSocketSession);
             createPlayer(value, webSocketSession);
         } else if(methodName.equals("startGame")){
             startGame();
         }
 
-//        switch(methodName){
-//            case "createPlayer":
-//                createPlayer(value.get(PLAYERNAME_KEY), webSocketSession);
-////                for(Player playerSession : playerArrayList){
-//////                    playerSession.sendMessage(new TextMessage(response));
-////                }
-//                break;
-//            case "dealCards":
-//                dealCards();
-//                break;
-//            default: System.out.println("do nothing");
-//        }
 
     }
 
@@ -240,7 +179,6 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
 
         for (int i = 0; i < playerArrayList.size(); i++) {
             System.out.println(playerArrayList.get(i) + " number of cards is: " + playerArrayList.get(i).getHandSize());
-//            playerArrayList.get(i).getSession().sendMessage(new TextMessage(response.toString()));
         }
     }
 
