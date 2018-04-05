@@ -68,7 +68,7 @@ function showRoomFull() {
 
 }
 
-function createGame() {
+function gameCreation() {
 
     var playername = $("#playerNameInput").val();
     var numberOfPlayers = $("#numberOfPlayers").val();
@@ -76,7 +76,7 @@ function createGame() {
 
     $("#createGameDiv").empty();
     var data = JSON.stringify({
-        'method': 'createPlayer',
+        'method': 'gameSettings',
         'playername': playername,
         'numberOfPlayers': numberOfPlayers,
         'numberOfAI': numberOfAI
@@ -115,13 +115,14 @@ function showCards(cards) {
     // $("#cards").append("<tr><td> in ShowCards </td></tr>");
 }
 
-function checkCard(card){
-  $("#cardsDiv").append("<p>Name of the Card: " + card.name + "</p>");
-}
+
 function dealCards() {
     console.log("in deal cards js");
+
+function startGame() {
+    console.log("in start game js");
     var data = JSON.stringify({
-        "method": "dealCards"
+        "method": "startGame"
     })
 
     websocket.send(data);

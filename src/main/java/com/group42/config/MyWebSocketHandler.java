@@ -24,7 +24,6 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
     ArrayList<Player> playerArrayList = new ArrayList<Player>();
     WebSocketSession hostSession;
     List<WebSocketSession> clientSessions = new CopyOnWriteArrayList<WebSocketSession>();
-
     public Board decks = new Board();
     int maxCards=12;
 
@@ -65,54 +64,6 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
 
         JsonObject response = new JsonObject();
 
-
-//        for(Player currentPlayer : playerArrayList){
-//            if(currentPlayer.getSession() == webSocketSession){
-//                if(currentPlayer.isHost() && !(playerArrayList.isEmpty())){
-//
-//                }
-//                playerArrayList.remove(currentPlayer);
-//            }
-//        }
-
-
-//        if(!(playerArrayList.isEmpty())){
-//            for(Player currentPlayer : playerArrayList){
-//                if(currentPlayer.getSession() == webSocketSession){
-//                    if(currentPlayer.isHost()){
-//
-//                    }
-//                    playerArrayList.remove(currentPlayer);
-//                }
-//            }
-//        }
-
-
-//        System.out.println("Player ArrayList size is " + playerArrayList.size());
-//        for(Player currentPlayer : playerArrayList){
-//            System.out.println("in for loop current player is:  " + currentPlayer.getName());
-//            if(currentPlayer.getSession() == webSocketSession){
-//
-//                Player playerLeaving = currentPlayer;
-//
-//                playerArrayList.remove(currentPlayer);
-//
-//                if(playerLeaving.isHost() == true && playerArrayList.isEmpty() == false){
-//
-//                    playerArrayList.get(0).setHost(true);
-//                    response.addProperty("method", "hostLeft");
-//                    response.addProperty("oldHost", playerLeaving.getName());
-//                    response.addProperty("newHost", playerArrayList.get(0).getName());
-//
-//                } else {
-//
-//                    response.addProperty("method", "someoneLeft");
-//                    response.addProperty("playername", playerLeaving.getName());
-//
-//                }
-//            }
-//        }
-
         for(Player p : playerArrayList){
             if(p.getSession() == webSocketSession){
                 p.getSession().sendMessage(new TextMessage(response.toString()));
@@ -126,43 +77,49 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
     public void handleTextMessage(WebSocketSession webSocketSession, TextMessage webTextMessage) throws Exception {
 
         Map<String, String> value = new Gson().fromJson(webTextMessage.getPayload(), Map.class);
+        
+        
+        
 
         String methodName = value.get(METHOD_KEY);
         System.out.println("method NAme: " + methodName);
 
 
         if(methodName.equals("createPlayer")){
-//            createPlayer(value.get(PLAYERNAME_KEY), webSocketSession);
-            createPlayer(value, webSocketSession);
-        } else if(methodName.equals("dealCards")){
-            dealCards();
+            createPlayer(value.get(PLAYERNAME_KEY).toString(), webSocketSession);
+        } else if(methodName.equals("startGame")){
+            startGame();
+        } else if(methodName.equals("gameSettings")) {
+        	gameSettings(value, webSocketSession);
         }
 
-//        switch(methodName){
-//            case "createPlayer":
-//                createPlayer(value.get(PLAYERNAME_KEY), webSocketSession);
-////                for(Player playerSession : playerArrayList){
-//////                    playerSession.sendMessage(new TextMessage(response));
-////                }
-//                break;
-//            case "dealCards":
-//                dealCards();
-//                break;
-//            default: System.out.println("do nothing");
-//        }
 
+    }
+    
+    public void gameSettings(Map value, WebSocketSession webSocketSession) throws Exception {
+    	String playerName = value.get(PLAYERNAME_KEY).toString();
+    	Integer nOfPlayers = Integer.parseInt(value.get(NOFPLAYERS_KEY).toString());
+        Integer nOfAI = Integer.parseInt(value.get(NOFAI_KEY).toString());
+        
+        //if there is AI create them and add them to playerArrayList
+        //when player arraylist.size is 4 then players wont be able to join even if there is AI
+        if(nOfAI != null) {
+        	createAI(nOfAI);
+        }
+        
+        createPlayer(playerName, webSocketSession);
+    	
+    }
+    
+    public void createAI(int numberOfAI) {
+    	System.out.println("create AI");
     }
 
 
-    public void createPlayer(Map value, WebSocketSession webSession) throws Exception {
+    public void createPlayer(String name, WebSocketSession webSession) throws Exception {
         System.out.println("in create player");
 
-//        int nOfPlayers = Integer.parseInt(value.get(NOFPLAYERS_KEY).toString());
-//        int nOFAI = Integer.parseInt(value.get(NOFAI_KEY).toString());
-
-
-
-        Player player = new Player(value.get(PLAYERNAME_KEY).toString());
+        Player player = new Player(name);
 
         if(playerArrayList.isEmpty()){
             player.setSession(webSession);
@@ -199,16 +156,24 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
     }
 
 
+    public void startGame() throws Exception{
+    	
+    	//first deal cards
+    	dealCards();
+    	
+    	//then we need to start game and turns 
+        
+
+
+
+    }
+    
     public void dealCards() throws Exception{
-        JsonObject response = new JsonObject();
+    	JsonObject response = new JsonObject();
 
         //for loop and create a new json object for each card, end of each iteration push to array
         //after for loop is done send body with jsonarray of cards into response
-
-
-//        response.addProperty("method", "showCards");
-
-        System.out.println("Deal Cards function");
+        System.out.println("Start Game function");
         for (int i = 0; i < playerArrayList.size(); i++) {
 
             JsonArray cards = new JsonArray();
@@ -232,11 +197,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
 
         for (int i = 0; i < playerArrayList.size(); i++) {
             System.out.println(playerArrayList.get(i) + " number of cards is: " + playerArrayList.get(i).getHandSize());
-//            playerArrayList.get(i).getSession().sendMessage(new TextMessage(response.toString()));
         }
-
-
-
     }
 
 
