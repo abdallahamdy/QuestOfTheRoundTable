@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="/app.js"></script>
+    <title>Quest of The Round Table</title>
+</head>
+<body onload="createWebSocket()">
+
+<div id="mainmenu">
+
+    <div id="createGameDiv">
+
+        <input id="playerNameInput" type="text" name="playerName">
+        <button id="createGameBtn" onclick="createGame()">create game</button>
+        <p>
+            <label>Number Of Human Players: </label>
+            <select id="numberOfPlayers">
+                <option value="1">one</option>
+                <option value="2">two</option>
+                <option value="3">three</option>
+                <option value="4">four</option>
+            </select>
+        </p>
+        <p>
+            <label>Number Of AI Players: </label>
+            <select id="numberOfAI">
+                <option value="1">one</option>
+                <option value="2">two</option>
+                <option value="3">three</option>
+                <option value="4">four</option>
+            </select>
+        </p>
+
+
+    </div>
+
+    <div id="joinGameDiv">
+        <input id="playerNameInput2" type="text" name="playerName">
+        <button id="joinGameBtn" onclick="joinGame()">join game</button>
+    </div>
+
+    <div id="lobbyDiv">
+        <button id="startGameBtn" onclick="dealCards()">deal cards</button>
+        <p id="responseField">
+        </p>
+    </div>
+
+    <div id="roomFullDiv">
+        <p>THE ROOM IS FULL LOSER</p>
+    </div>
+
+</div>
+
+
+<div id="cardsDiv">
+
+</div>
+
+</body>
+</html>
