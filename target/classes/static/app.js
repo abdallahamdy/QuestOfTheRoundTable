@@ -113,7 +113,7 @@ function showCards(cards) {
     // $("#cards").append("<tr><td> in ShowCards </td></tr>");
 }
 
-function dealCards() {
+function startGame() {
     console.log("in deal cards js");
     var data = JSON.stringify({
         "method": "dealCards"
