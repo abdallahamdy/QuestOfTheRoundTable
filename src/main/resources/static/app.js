@@ -9,6 +9,7 @@ function createWebSocket() {
     $("#joinGameDiv").hide();
     $("#startGameBtn").hide();
     $("#roomFullDiv").hide();
+    $("#boardGameDiv").hide();
     //$("#createUserDiv").hide();
 
     // websocket.onopen = function(e){
@@ -103,22 +104,28 @@ function joinGame() {
 }
 
 function showCards(cards) {
+  var cards = [];
+
 	$("#mainmenu").empty();
+  $("#boardGameDiv").show();
     // $("#responseField").append("<tr><td>" + name + "</td></tr>");
     console.log(cards);
     for (i = 0; i < cards.length; i++) {
         console.log("card is: " + cards[i].name + "location is: " + cards[i].imgLocation);
-        $("#cardsDiv").append("<img height='75' width='50' src='" + cards[i].imgLocation + "'>");
+        $("#cardsDiv").append("<img height='100' width='75' src='" + cards[i].imgLocation + "' onclick='checkCard(cards[" + i + "])'>");
     }
     // $("#cards").append("<tr><td> in ShowCards </td></tr>");
 }
 
+function checkCard(card){
+  $("#cardsDiv").append("<p>Name of the Card: " + card.name + "</p>");
+}
 function dealCards() {
     console.log("in deal cards js");
     var data = JSON.stringify({
         "method": "dealCards"
     })
-    
+
     websocket.send(data);
 
 }
