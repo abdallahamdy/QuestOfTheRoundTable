@@ -67,7 +67,7 @@ function showRoomFull() {
 
 }
 
-function createGame() {
+function gameCreation() {
 
     var playername = $("#playerNameInput").val();
     var numberOfPlayers = $("#numberOfPlayers").val();
@@ -75,7 +75,7 @@ function createGame() {
 
     $("#createGameDiv").empty();
     var data = JSON.stringify({
-        'method': 'createPlayer',
+        'method': 'gameSettings',
         'playername': playername,
         'numberOfPlayers': numberOfPlayers,
         'numberOfAI': numberOfAI

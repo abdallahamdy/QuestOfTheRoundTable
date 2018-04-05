@@ -24,7 +24,6 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
     ArrayList<Player> playerArrayList = new ArrayList<Player>();
     WebSocketSession hostSession;
     List<WebSocketSession> clientSessions = new CopyOnWriteArrayList<WebSocketSession>();
-
     public Board decks = new Board();
     int maxCards=12;
 
@@ -78,30 +77,49 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
     public void handleTextMessage(WebSocketSession webSocketSession, TextMessage webTextMessage) throws Exception {
 
         Map<String, String> value = new Gson().fromJson(webTextMessage.getPayload(), Map.class);
+        
+        
+        
 
         String methodName = value.get(METHOD_KEY);
         System.out.println("method NAme: " + methodName);
 
 
         if(methodName.equals("createPlayer")){
-            createPlayer(value, webSocketSession);
+            createPlayer(value.get(PLAYERNAME_KEY).toString(), webSocketSession);
         } else if(methodName.equals("startGame")){
             startGame();
+        } else if(methodName.equals("gameSettings")) {
+        	gameSettings(value, webSocketSession);
         }
 
 
     }
+    
+    public void gameSettings(Map value, WebSocketSession webSocketSession) throws Exception {
+    	String playerName = value.get(PLAYERNAME_KEY).toString();
+    	Integer nOfPlayers = Integer.parseInt(value.get(NOFPLAYERS_KEY).toString());
+        Integer nOfAI = Integer.parseInt(value.get(NOFAI_KEY).toString());
+        
+        //if there is AI create them and add them to playerArrayList
+        //when player arraylist.size is 4 then players wont be able to join even if there is AI
+        if(nOfAI != null) {
+        	createAI(nOfAI);
+        }
+        
+        createPlayer(playerName, webSocketSession);
+    	
+    }
+    
+    public void createAI(int numberOfAI) {
+    	System.out.println("create AI");
+    }
 
 
-    public void createPlayer(Map value, WebSocketSession webSession) throws Exception {
+    public void createPlayer(String name, WebSocketSession webSession) throws Exception {
         System.out.println("in create player");
 
-//        int nOfPlayers = Integer.parseInt(value.get(NOFPLAYERS_KEY).toString());
-//        int nOFAI = Integer.parseInt(value.get(NOFAI_KEY).toString());
-
-
-
-        Player player = new Player(value.get(PLAYERNAME_KEY).toString());
+        Player player = new Player(name);
 
         if(playerArrayList.isEmpty()){
             player.setSession(webSession);
