@@ -200,14 +200,22 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
 
 
     public void startGame() throws Exception{
-        JsonObject response = new JsonObject();
+    	
+    	//first deal cards
+    	dealCards();
+    	
+    	//then we need to start game and turns 
+        
+
+
+
+    }
+    
+    public void dealCards() throws Exception{
+    	JsonObject response = new JsonObject();
 
         //for loop and create a new json object for each card, end of each iteration push to array
         //after for loop is done send body with jsonarray of cards into response
-
-
-//        response.addProperty("method", "showCards");
-
         System.out.println("Start Game function");
         for (int i = 0; i < playerArrayList.size(); i++) {
 
@@ -234,9 +242,6 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
             System.out.println(playerArrayList.get(i) + " number of cards is: " + playerArrayList.get(i).getHandSize());
 //            playerArrayList.get(i).getSession().sendMessage(new TextMessage(response.toString()));
         }
-
-
-
     }
 
 
